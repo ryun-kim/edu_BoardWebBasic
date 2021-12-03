@@ -30,16 +30,25 @@ public class UserLoginServlet extends HttpServlet {
         System.out.println(entity);
 
         LoginResult lr = UserDAO.login(entity);
+        String err = null;
         switch (lr.getResult()){
             case 1:
                 //세션에 loginUser값 등록
                 HttpSession hs = req.getSession();
                 hs.setAttribute("loginUser", lr.getLoginUser());
-
                 res.sendRedirect("/board/list");
+                return;
+            case 0:
+                err = "로그인을 실패하였습니다.";
                 break;
-            default:
+            case 2:
+                err = "아이디를 확인해 주세요.";
+                break;
+            case 3:
+                err = "비밀번호를 확인해 주세요.";
                 break;
         }
+                req.setAttribute("err",err);
+                doGet(req, res);
     }
 }
