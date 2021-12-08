@@ -23,4 +23,38 @@
         <th>조회수 <c:out value=" ${requestScope.detail.hit}"/></th>
         <th>등록일시 <c:out value="${requestScope.detail.rdt}"/></th>
     </div>
+
+    <c:if test="${sessionScope.loginUser != null}">
+        <div>
+            <form action="/board/cmt/reg" method="post">
+                <input type="hidden" name="iboard" value="${requestScope.detail.iboard}">
+                <input type="text" name="ctnt" placeholder="댓글 내용">
+                <input type="submit" value="댓글달기">
+            </form>
+        </div>
+    </c:if>
+    <div>
+        <talbe>
+            <tr>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성일시</th>
+                <th>비고</th>
+            </tr>
+            <c:forEach items="${requestScope.cmtList}" var="item">
+                <tr>
+                    <td><c:out value="${item.ctnt}"/></td>
+                    <td>${writerNm}</td>
+                    <td>${rdt}</td>
+                    <td>
+                        <c:if test="${sessionScope.loginUser.iuser == item.writer}">
+                            <button>수정</button>
+                            <button onclick="isDelCmt(${item.icmt});">삭제</button>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </talbe>
+    </div>
 </div>
+<script src="/res/js/board/detail.js"></script>

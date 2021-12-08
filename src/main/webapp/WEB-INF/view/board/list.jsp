@@ -20,11 +20,11 @@
                 </tr>
                 <c:forEach items="${requestScope.list}" var="item">
                     <c:set var="eachTitle" value="${fn:replace(fn:replace(item.title, '>', '&gt;'), '<', '&lt;')}" />
-                    <c:if test="${param.searchType == 1 || param.searchType == 3 || param.searchType ==5}">
+                    <c:if test="${param.searchText != null&& (param.searchType == 1 || param.searchType == 3 || param.searchType ==5)}">
                         <c:set var="eachTitle" value="${fn:replace(eachTitle, param.searchText, '<mark>' += param.searchText += '</mark>')}" />
                     </c:if>
                     <c:set var="eachWriterNm" value="${fn:replace(item.writerNm,'>' ,'&gt;' )}"/>
-                    <c:if test="${param.searchType ==4 || param.searchType ==5}">
+                    <c:if test="${param.searchText != null && (param.searchType ==4 || param.searchType ==5)}">
                         <c:set var="eachWriterNm" value="${fn:replace(eachWriterNm, param.searchText, '<mark>' += param.searchText += '</mark>' )}"/>
                     </c:if>
 
@@ -41,7 +41,7 @@
         <div class="pageContainer">
             <c:set var="selectedPage" value="${param.page == null? 1: param.page}"/>
             <c:forEach var="page" begin="1" end="${maxPageNum}">
-                <div><a href="/board/list?page=${page}&searchType=${param.searchType}&searchText=${param.searchText}"><span class="${selectedPage == page ? 'selected' : ''}" ><c:out value="${page}"/></span></a></div>
+                <div><a href="/board/list?page=${page}&searchType=${param.searchType}&searchText=${param.searchText}&rowCnt=${param.rowCnt}"><span class="${selectedPage == page ? 'selected' : ''}" ><c:out value="${page}"/></span></a></div>
             </c:forEach>
             <!--
             maxPageNum값이 0이면 테이블이 나타나지 않고, <div>글이 없습니다.</div>
@@ -55,7 +55,7 @@
     </c:otherwise>
 </c:choose>
 <div class="searchDiv">
-    <form action="/board/list" method="get">
+    <form action="/board/list" method="get" id="searchFrm">
         <select name="searchType">
             <option value="1" ${param.searchType ==1 ? 'selected' : ''}>제목</option>
             <option value="2" ${param.searchType ==2 ? 'selected' : ''}>내용</option>
@@ -67,6 +67,13 @@
             <input type="search" name="searchText" value="${param.searchText}">
             <input type="submit" value="검색">
         </div>
+
+        나타내는 행 수:
+        <select name="rowCnt">
+            <c:forEach var="cnt" begin="5" end="30" step="5">
+                <option value="${cnt}" ${ctn==param.rowCnt ? 'selected':''}>${cnt}개</option>
+            </c:forEach>
+        </select>
     </form>
 </div>
 <script src="/res/js/board/list.js"></script>

@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="boardWebBasic" />
         <module name="202109BoardBasic" />
+        <module name="edu_BoardWebBasic" />
       </profile>
     </annotationProcessing>
   </component>
