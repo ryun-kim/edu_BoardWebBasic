@@ -35,8 +35,6 @@ public class BoardDelServlet extends HttpServlet {
                 req.getRequestDispatcher("/board/detail?iboard="+iboard).forward(req,res);
                 break;
         }
-
-
     }
 
     @Override
