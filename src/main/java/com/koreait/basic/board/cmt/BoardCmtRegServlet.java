@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/board/cmg/reg")
+@WebServlet("/board/cmt/reg")
 public class BoardCmtRegServlet extends HttpServlet {
 
     @Override

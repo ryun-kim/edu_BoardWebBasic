@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/board/cmt/del")
-public class BoardDelServlet extends HttpServlet {
+public class BoardCmtDelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int iboard = Utils.getParameterInt(req,"iboard");
