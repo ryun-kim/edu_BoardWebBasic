@@ -33,11 +33,11 @@ public class BoardDetailServlet extends HttpServlet {
         // 로그인 한 사람의 pk값과 data에 들어있는 writer값이 다르거나
         // 로그인이 안되어 있다면 hit 값 올림
         int loginUserPk = Utils.getLoginUserPk(req);
-        if(data.getWriter()  != loginUserPk|| nohits != 1){ //로그인 안 되어 있으면 0, 로그인 되어 있으면 pk값값
+        if(data.getWriter()  != loginUserPk && nohits != 1){ //로그인 안 되어 있으면 0, 로그인 되어 있으면 pk값값
            BoardDAO.updBoardHitUp(dto);
         }
 
-        req.setAttribute("detail", BoardDAO.selBoardDetail(dto));
+        req.setAttribute("detail", data);
         Utils.displayView("글내용", "board/detail", req, res);
 
 

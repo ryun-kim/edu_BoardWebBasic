@@ -13,7 +13,8 @@ btnCancelElem.addEventListener('click',function (){
 function openModForm(icmt, ctnt){
     cmtModContainerElem.style.display = 'flex';
 
-    var cmtModFrmElem = cmtModContainerElem('#cmtModFrm');
+    var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
     cmtModFrmElem.icmt.value = icmt;
     cmtModFrmElem.ctnt.value = ctnt;
+
 }
