@@ -33,6 +33,18 @@
             </form>
         </div>
     </c:if>
+    <c:if test="${sessionScope.loginUser !=null}">
+        <div class="far">
+            <c: when test="${requestScope.isHeart ==1 }">
+                <a href="/board/heart?proc=1&iboard=${requestScope.data.iboard}"><i class="fas fa-thumbs-up"></i></a>
+            </c:>
+            <c:otherwise>
+                <a href="/board/heart?proc=2&iboard=${requestScope.data.iboard}"><i class="far fa-thumbs-up"></i></a>
+            </c:otherwise>
+
+
+        </div>
+    </c:if>
     <div>
         <talbe>
             <tr>
