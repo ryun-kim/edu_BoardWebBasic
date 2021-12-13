@@ -57,13 +57,14 @@ public class BoardCmtDAO {
                         .rdt(rs.getString("rdt"))
                         .writerNm(rs.getString("writerNm"))
                         .build();
+                list.add(vo);
             }
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             DbUtils.close(con, ps, rs);
         }
-        return null;
+        return list;
     }
 
     public static int updBoardCmt(BoardCmtEntity param){

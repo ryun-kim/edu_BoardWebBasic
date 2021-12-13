@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link rel="stylesheet" href="/res/css/board/detail.css?ver=2">
 <div>
     <c:if test="${sessionScope.loginUser.iuser == requestScope.detail.writer}">
     <div>
@@ -46,7 +47,7 @@
         </div>
     </c:if>
     <div>
-        <talbe>
+        <table>
             <tr>
                 <th>내용</th>
                 <th>작성자</th>
@@ -56,17 +57,30 @@
             <c:forEach items="${requestScope.cmtList}" var="item">
                 <tr>
                     <td><c:out value="${item.ctnt}"/></td>
-                    <td>${writerNm}</td>
-                    <td>${rdt}</td>
+                    <td>${item.writerNm}</td>
+                    <td>${item.rdt}</td>
                     <td>
                         <c:if test="${sessionScope.loginUser.iuser == item.writer}">
-                            <button>수정</button>
-                            <button onclick="isDelCmt(${item.icmt});">삭제</button>
+                            <button onclick="openModForm(${item.icmt}, '${item.ctnt}')">수정</button>
+                            <button onclick="isDelCmt(${requestScope.detail.iboard},${item.icmt});">삭제</button>
                         </c:if>
                     </td>
                 </tr>
             </c:forEach>
-        </talbe>
+        </table>
+    </div>
+    <div class="cmtModContainer">
+        <div class="cmtModBody">
+            <form action="/board/cmt/mod" method="post" id="cmtModFrm">
+                <input type="hidden" name="iboard" value="${requestScope.detail.iboard}">
+                <input type="hidden" name="icmt">
+                <div><input type="text" name="ctnt" placeholder="댓글 내용"></div>
+                <div>
+                    <input type="submit" value="수정">
+                    <input type="button" value="취소" id="btnCancel">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-<script src="/res/js/board/detail.js"></script>
+<script src="/res/js/board/detail.js?V=5"></script>
