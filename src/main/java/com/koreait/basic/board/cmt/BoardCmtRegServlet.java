@@ -13,11 +13,9 @@ import java.io.IOException;
 
 @WebServlet("/board/cmt/reg")
 public class BoardCmtRegServlet extends HttpServlet {
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        //댓글 insert
-        int iboard = Utils.getParameterInt(req,"iboard");
+        int iboard = Utils.getParameterInt(req, "iboard");
         String ctnt = req.getParameter("ctnt");
         int writer = Utils.getLoginUserPk(req);
 

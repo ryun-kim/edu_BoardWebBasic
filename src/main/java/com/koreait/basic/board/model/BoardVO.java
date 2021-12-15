@@ -16,5 +16,6 @@ public class BoardVO {
     private int cnt;
 
     private String writerNm;
+    private String profileImg;
 
 }

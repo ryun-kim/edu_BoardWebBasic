@@ -3,6 +3,7 @@ package com.koreait.basic.board;
 import com.koreait.basic.Utils;
 import com.koreait.basic.board.model.BoardDTO;
 import com.koreait.basic.board.model.BoardEntity;
+import com.koreait.basic.board.model.BoardVO;
 import com.koreait.basic.dao.BoardDAO;
 
 import javax.servlet.ServletException;
@@ -17,16 +18,16 @@ public class BoardRegModServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int iboard = Utils.getParameterInt(req,"iboard");
-        // 글 수정과 글 등록 분기
-        String title = "글 등록";
+        int iboard = Utils.getParameterInt(req, "iboard");
+        String title = "글등록";
 
-        if(iboard != 0){
-            title = "글 수정";
-            if(req.getAttribute("data") ==null) {
-                BoardDTO dto = new BoardDTO();
-                dto.setIboard(iboard);
-                req.setAttribute("detail", BoardDAO.selBoardDetail(dto));
+        if(iboard > 0) { //수정
+            title = "글수정";
+            if(req.getAttribute("data") == null) {
+                BoardDTO param = new BoardDTO();
+                param.setIboard(iboard);
+                BoardVO data = BoardDAO.selBoardDetail(param);
+                req.setAttribute("data", data);
             }
         }
         Utils.displayView(title, "board/regmod", req, res);
@@ -39,25 +40,24 @@ public class BoardRegModServlet extends HttpServlet {
             res.sendRedirect("/user/login");
             return;
         }
-
-        int iboard = Utils.getParameterInt(req,"iboard");
+        int iboard = Utils.getParameterInt(req, "iboard");
         String title = req.getParameter("title");
+        title = title.replace("<", "&lt;").replace(">", "&gt;");
         String ctnt = req.getParameter("ctnt");
+        ctnt = ctnt.replace("<", "&lt;").replace(">", "&gt;");
 
         int result = 0;
         BoardEntity entity = new BoardEntity();
         entity.setTitle(title);
         entity.setCtnt(ctnt);
         entity.setWriter(loginUserPk);
-        if(iboard ==0){
-            result = BoardDAO.insBoardWithPk(entity);
 
-        }else{
+        if(iboard == 0) { //등록
+            result = BoardDAO.insBoardWithPk(entity);
+        } else { //수정
             entity.setIboard(iboard);
             result = BoardDAO.updBoard(entity);
         }
-
-        System.out.println("after-insert-iboard : " + entity.getIboard());
         switch (result) {
             case 1:
                 if(entity.getIboard() != 0) {
@@ -66,9 +66,9 @@ public class BoardRegModServlet extends HttpServlet {
                 }
                 break;
             default:
-                req.setAttribute("err","등록/수정에 실패하였습니다.");
-                req.setAttribute("data",entity);
-                doGet(req,res);
+                req.setAttribute("err", "등록/수정에 실패하였습니다.");
+                req.setAttribute("data", entity);
+                doGet(req, res);
                 break;
         }
         res.sendRedirect("/board/list");

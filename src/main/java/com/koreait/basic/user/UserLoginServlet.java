@@ -4,6 +4,7 @@ import com.koreait.basic.Utils;
 import com.koreait.basic.dao.UserDAO;
 import com.koreait.basic.user.model.LoginResult;
 import com.koreait.basic.user.model.UserEntity;
+import org.apache.catalina.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,7 @@ public class UserLoginServlet extends HttpServlet {
 
         LoginResult lr = UserDAO.login(entity);
         String err = null;
-        switch (lr.getResult()){
+        switch(lr.getResult()) {
             case 1:
                 //세션에 loginUser값 등록
                 HttpSession hs = req.getSession();
@@ -48,7 +49,7 @@ public class UserLoginServlet extends HttpServlet {
                 err = "비밀번호를 확인해 주세요.";
                 break;
         }
-                req.setAttribute("err",err);
-                doGet(req, res);
+        req.setAttribute("err", err);
+        doGet(req, res);
     }
 }
