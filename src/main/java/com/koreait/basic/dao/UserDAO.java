@@ -71,15 +71,22 @@ public class UserDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = " SELECT uid, nm, gender, rdt, profileImg FROM t_user WHERE iuser = ? ";
+        String sql = " SELECT iuser, uid, upw, nm, gender, rdt, profileImg FROM t_user WHERE ";
+
+        if(entity.getIuser() >0){
+            sql += " iuser = " + entity.getIuser();
+        }else{
+            sql += " uid = '" + entity.getUid() + "'";
+        }
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, entity.getIuser());
             rs = ps.executeQuery();
             if(rs.next()) {
                 UserEntity vo = new UserEntity();
+                vo.setIuser(rs.getInt("iuser"));
                 vo.setUid(rs.getString("uid"));
+                vo.setUpw(rs.getString("upw"));
                 vo.setNm(rs.getString("nm"));
                 vo.setGender(rs.getInt("gender"));
                 vo.setRdt(rs.getString("rdt"));
@@ -91,6 +98,8 @@ public class UserDAO {
         return null;
     }
 
+    // 비밀번호 변경 > iuser,upw(암호화가 된) 넘어온다.
+    // 프로필이미지 > iuser, profileImg 넘어온다.
     public static int updUser(UserEntity entity) {
         Connection con = null;
         PreparedStatement ps = null;

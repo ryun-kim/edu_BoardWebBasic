@@ -9,7 +9,7 @@
     <div>
         <div>아이디 : ${requestScope.data.uid}</div>
         <div>이름 : ${requestScope.data.nm}</div>
-        <div>성별 : ${requestScope.data.gender}</div>
+        <div>성별 : ${requestScope.data.gender == 1?'남성':'여성'}</div>
         <div>가입일 : ${requestScope.data.rdt}</div>
     </div>
     <div>
