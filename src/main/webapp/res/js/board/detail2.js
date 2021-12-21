@@ -1,21 +1,63 @@
 var cmtListContainerElem = document.querySelector('#cmtListContainer');
 var cmtModContainerElem = document.querySelector('.cmtModContainer');
 
-// (댓글 수정) 취소 버튼 클릭 이벤트 연결
+//(댓글 수정) 취소 버튼 클릭 이벤트 연결
 var btnCancelElem = cmtModContainerElem.querySelector('#btnCancel');
-btnCancelElem.addEventListener('click',function (){
+btnCancelElem.addEventListener('click', function() {
     cmtModContainerElem.style.display = 'none';
+    var selectedTrElem = document.querySelector('.cmt_selected');
+    selectedTrElem.classList.remove('cmt_selected');
 });
 
+var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
+var submitBtnElem = cmtModFrmElem.querySelector('input[type=submit]');
+submitBtnElem.addEventListener('click', function(e) {
+    e.preventDefault();
+    var url = '/board/cmt?proc=upd';
+
+    //댓글 수정 : ctnt, icmt
+    var param = {
+        'icmt': cmtModFrmElem.icmt.value,
+        'ctnt': cmtModFrmElem.ctnt.value
+    };
+
+    fetch(url, {
+        'method': 'POST',
+        'headers': { 'Content-Type': 'application/json' },
+        'body': JSON.stringify(param)
+    }).then(function(res) {
+        return res.json();
+    }).then(function(data) {
+        console.log(data.result);
+        switch(data.result){
+            case 0 : //수정 실패
+                alert('댓글 수정에 실패하였습니다')
+                break;
+            case 1: //수정 성공
+                modCtnt(param.ctnt);
+                var e = new Event('click');
+                btnCancelElem.dispatchEvent(e);
+                break;
+        }
+    }).catch(function(err) {
+        console.log(err);
+    });
+
+});
+
+function modCtnt(ctnt){
+    var selectedTrElem = document.querySelector('.cmt_selected');
+    var tdCtntElem = selectedTrElem.children[0];
+    tdCtntElem.innerText = ctnt;
+}
 
 if(cmtListContainerElem) {
-    function openModForm({icmt, ctnt}){ // 구조 분해 할당 사용함
-
+    function openModForm( icmt, ctnt ) { //구조 분해 할당 사용함.
         cmtModContainerElem.style.display = 'flex';
-        var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
         cmtModFrmElem.icmt.value = icmt;
         cmtModFrmElem.ctnt.value = ctnt;
     }
+
     function getList() {
         var iboard = cmtListContainerElem.dataset.iboard;
         var url = '/board/cmt?iboard=' + iboard;
@@ -41,6 +83,8 @@ if(cmtListContainerElem) {
         `; //템플릿 리터널
         cmtListContainerElem.appendChild(tableElem);
 
+        var loginUserPk = cmtListContainerElem.dataset.loginuserpk === '' ? 0 : Number(cmtListContainerElem.dataset.loginuserpk);
+
         data.forEach(function(item) {
             var tr = document.createElement('tr');
             var ctnt = item.ctnt.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -50,20 +94,22 @@ if(cmtListContainerElem) {
                 <td>${item.rdt}</td>
             `;
             tableElem.appendChild(tr);
+            var lastTd = document.createElement('td');
+            tr.appendChild(lastTd);
 
-            if(loginUserpk === item.writer ){
-                var lastTd = document.createElement('td');
+            if(loginUserPk === item.writer) {
                 var btnMod = document.createElement('button');
-                btnMod.innerText='수정';
-                btnMod.addEventListener('click',function (){
-                    openModForm(item);
-                })
+                btnMod.innerText = '수정';
+                btnMod.addEventListener('click', function() {
+                    tr.classList.add('cmt_selected');
+                    var ctnt = tr.children[0].innerText;
+                    openModForm(item.icmt, ctnt);
+                });
                 var btnDel = document.createElement('button');
                 btnDel.innerText = '삭제';
                 lastTd.appendChild(btnMod);
                 lastTd.appendChild(btnDel);
             }
-            tr.appendChild(lastTd);
         });
     }
 
