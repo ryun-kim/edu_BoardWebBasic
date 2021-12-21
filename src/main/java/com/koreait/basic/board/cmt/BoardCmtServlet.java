@@ -20,36 +20,20 @@ public class BoardCmtServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // 리스트 (R)
-<<<<<<< HEAD
         int iboard = Utils.getParameterInt(req, "iboard");
         BoardCmtDTO cmtParam = new BoardCmtDTO();
         cmtParam.setIboard(iboard);
-
         List<BoardCmtVO> cmtList = BoardCmtDAO.selBoardCmtList(cmtParam);
-
         Gson gson = new Gson(); //객체를 Json형태로 바꾸기 위해 Gson객체 생성
-        String json = gson.toJson(cmtList);
-=======
-        int iboard = Utils.getParameterInt(req,"iboard");
-        BoardCmtDTO cmtParam = new BoardCmtDTO();
-        cmtParam.setIboard(iboard);
 
         List<BoardCmtVO> list = BoardCmtDAO.selBoardCmtList(cmtParam);
-
-        Gson gson = new Gson();
->>>>>>> origin/master
-
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
         PrintWriter out = res.getWriter();
-<<<<<<< HEAD
-        out.print(json);
-        out.flush();
-
-=======
+        
         out.print(gson.toJson(list));
         out.flush();
->>>>>>> origin/master
+
     }
 
     @Override
