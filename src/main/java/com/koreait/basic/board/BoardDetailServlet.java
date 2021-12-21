@@ -26,9 +26,12 @@ public class BoardDetailServlet extends HttpServlet {
 
         BoardVO data = BoardDAO.selBoardDetail(dto);
 
+        /*
+        이제 ajax 통신으로 받아서 사용
         BoardCmtDTO cmtParam = new BoardCmtDTO();
         cmtParam.setIboard(iboard);
         req.setAttribute("cmtList", BoardCmtDAO.selBoardCmtList(cmtParam));
+         */
 
         // 로그인 한 사람의 pk값과 data에 들어있는 writer값이 다르거나
         // 로그인이 안되어 있다면 hit 값 올림
@@ -37,7 +40,7 @@ public class BoardDetailServlet extends HttpServlet {
            BoardDAO.updBoardHitUp(dto);
         }
 
-        req.setAttribute("detail", data);
+        req.setAttribute("data", data);
         Utils.displayView("글내용", "board/detail", req, res);
 
 

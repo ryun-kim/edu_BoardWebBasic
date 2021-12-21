@@ -26,7 +26,7 @@ public class BoardRegModServlet extends HttpServlet {
             if(req.getAttribute("data") ==null) {
                 BoardDTO dto = new BoardDTO();
                 dto.setIboard(iboard);
-                req.setAttribute("detail", BoardDAO.selBoardDetail(dto));
+                req.setAttribute("data", BoardDAO.selBoardDetail(dto));
             }
         }
         Utils.displayView(title, "board/regmod", req, res);

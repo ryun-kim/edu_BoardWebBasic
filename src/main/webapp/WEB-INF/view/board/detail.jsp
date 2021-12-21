@@ -9,20 +9,20 @@
     </div>
     </c:if>
     <div>
-        <th>번호 <c:out value=" ${requestScope.detail.iboard}"/></th>
-        <th>제목 <c:out value="${requestScope.detail.title}"/> </th>
+        <th>번호 <c:out value=" ${requestScope.data.iboard}"/></th>
+        <th>제목 <c:out value="${requestScope.data.title}"/> </th>
     </div>
     <div>
         <tr>내용</tr>
-        <th><c:out value=" ${requestScope.detail.ctnt}"/></th>
+        <th><c:out value=" ${requestScope.data.ctnt}"/></th>
     </div>
     <div>
         <tr>작성자</tr>
-        <th><c:out value=" ${requestScope.detail.writerNm}"/></th>
+        <th><c:out value=" ${requestScope.data.writerNm}"/></th>
     </div>
     <div>
-        <th>조회수 <c:out value=" ${requestScope.detail.hit}"/></th>
-        <th>등록일시 <c:out value="${requestScope.detail.rdt}"/></th>
+        <th>조회수 <c:out value=" ${requestScope.data.hit}"/></th>
+        <th>등록일시 <c:out value="${requestScope.data.rdt}"/></th>
     </div>
 
     <c:if test="${sessionScope.loginUser != null}">
@@ -34,7 +34,9 @@
             </form>
         </div>
     </c:if>
+
     <div>
+        <!--
         <table>
             <tr>
                 <th>내용</th>
@@ -50,17 +52,23 @@
                     <td>
                         <c:if test="${sessionScope.loginUser.iuser == item.writer}">
                             <button onclick="openModForm(${item.icmt}, '${item.ctnt}')">수정</button>
-                            <button onclick="isDelCmt(${requestScope.detail.iboard},${item.icmt});">삭제</button>
+                            <button onclick="isDelCmt(${requestScope.data.iboard},${item.icmt});">삭제</button>
                         </c:if>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+        -->
+        <div id="cmtListContainer" data-iboard="${requestScope.data.iboard}"></div>
     </div>
+
+
+
+
     <div class="cmtModContainer">
         <div class="cmtModBody">
             <form action="/board/cmt/mod" method="post" id="cmtModFrm">
-                <input type="hidden" name="iboard" value="${requestScope.detail.iboard}">
+                <input type="hidden" name="iboard" value="${requestScope.data.iboard}">
                 <input type="hidden" name="icmt">
                 <div><input type="text" name="ctnt" placeholder="댓글 내용"></div>
                 <div>
