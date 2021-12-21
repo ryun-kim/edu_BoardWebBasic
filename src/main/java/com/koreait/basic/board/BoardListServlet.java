@@ -15,29 +15,22 @@ import java.io.IOException;
 public class BoardListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int searchType= Utils.getParameterInt(req,"searchType",0);
-        String searchText= req.getParameter("searchText");
-        int rowCnt = Utils.getParameterInt(req,"rowcnt",5);
-        int page =Utils.getParameterInt(req,"page",1);
+        int searchType = Utils.getParameterInt(req, "searchType", 0);
+        String searchText = req.getParameter("searchText");
+        int rowCnt = Utils.getParameterInt(req, "rowCnt", 5);
+        int page = Utils.getParameterInt(req, "page", 1);
 
         BoardDTO param = new BoardDTO();
-        param.setSearchText(searchText);
         param.setSearchType(searchType);
+        param.setSearchText(searchText);
         param.setRowCnt(rowCnt);
         param.setPage(page);
-        int startIdx = (param.getPage() -1) * param.getRowCnt();
+        int startIdx = (param.getPage() - 1) * param.getRowCnt();
         param.setStartIdx(startIdx);
 
-        int maxPageNum = BoardDAO.getMaxPageNum(param);
-
-        req.setAttribute("maxPageNum", maxPageNum);
+        req.setAttribute("maxPageNum", BoardDAO.getMaxPageNum(param));
         req.setAttribute("list", BoardDAO.selBoardList(param));
 
         Utils.displayView("게시판", "board/list", req, res);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
     }
 }

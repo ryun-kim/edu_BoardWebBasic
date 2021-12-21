@@ -20,20 +20,19 @@ public class BoardDelServlet extends HttpServlet {
         int iboard = Utils.getParameterInt(req,"iboard");
         int writer = Utils.getLoginUserPk(req);
 
+        BoardEntity param = new BoardEntity();
+        param.setIboard(iboard);
+        param.setWriter(writer);
 
-        BoardEntity entity = new BoardEntity();
-        entity.setIboard(iboard);
-        entity.setWriter(writer);
-
-        int result = BoardDAO.delBoard(entity);
-        switch (result){
+        int result = BoardDAO.delBoard(param);
+        switch(result) {
             case 1:
                 res.sendRedirect("/board/list");
-                break;
+                return;
             default:
                 req.setAttribute("err", "글 삭제를 실패하였습니다.");
-                req.getRequestDispatcher("/board/detail?iboard="+iboard).forward(req,res);
-                break;
+                req.getRequestDispatcher("/board/detail?iboard=" + iboard).forward(req, res);
+                return;
         }
     }
 
