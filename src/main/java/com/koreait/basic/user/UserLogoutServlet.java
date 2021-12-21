@@ -1,7 +1,5 @@
 package com.koreait.basic.user;
 
-import com.koreait.basic.Utils;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +15,5 @@ public class UserLogoutServlet extends HttpServlet {
         HttpSession hs = req.getSession();
         hs.invalidate();
         res.sendRedirect("/board/list");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
     }
 }

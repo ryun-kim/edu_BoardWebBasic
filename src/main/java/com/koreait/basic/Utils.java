@@ -20,13 +20,13 @@ public class Utils {
         req.getRequestDispatcher("/WEB-INF/view/" + jsp + ".jsp").forward(req, res);
     }
 
-    public static int getParameterInt(HttpServletRequest req, String key, int defVal){
+    public static int getParameterInt(HttpServletRequest req, String key) {
+        return getParameterInt(req, key, 0);
+    }
+
+    public static int getParameterInt(HttpServletRequest req, String key, int defVal) {
         String val = req.getParameter(key);
         return parseStringToInt(val, defVal);
-    }
-    public static int getParameterInt(HttpServletRequest req, String key) {
-
-        return getParameterInt(req, key, 0);
     }
 
     public static int parseStringToInt(String val, int defVal) {
@@ -36,13 +36,14 @@ public class Utils {
         return defVal;
     }
 
-    public  static int getLoginUserPk(HttpServletRequest req){
-        UserEntity loginUser = getLoginUser(req);
-        return loginUser == null ? 0 : loginUser.getIuser();
+    public static UserEntity getLoginUser(HttpServletRequest req) {
+        HttpSession hs = req.getSession();
+        return (UserEntity) hs.getAttribute("loginUser");
     }
 
-    public static UserEntity getLoginUser(HttpServletRequest req){
-        HttpSession session = req.getSession();
-        return (UserEntity)session.getAttribute("loginUser");
+    public static int getLoginUserPk(HttpServletRequest req) {
+        UserEntity loginUser = getLoginUser(req);
+        if(loginUser == null) { return 0; }
+        return loginUser.getIuser();
     }
 }

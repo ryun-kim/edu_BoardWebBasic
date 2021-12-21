@@ -2,10 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="/res/css/board/detail.css?ver=2">
 <div>
-    <c:if test="${sessionScope.loginUser.iuser == requestScope.detail.writer}">
+    <c:if test="${sessionScope.loginUser.iuser == requestScope.data.writer}">
     <div>
-        <a href="/board/del?iboard=${requestScope.detail.iboard}"><button>삭제</button></a>
-        <a href="/board/regmod?iboard=${requestScope.detail.iboard}"><button>수정</button></a>
+        <a href="/board/del?iboard=${requestScope.data.iboard}"><button>삭제</button></a>
+        <a href="/board/regmod?iboard=${requestScope.data.iboard}"><button>수정</button></a>
     </div>
     </c:if>
     <div>
@@ -28,7 +28,7 @@
     <c:if test="${sessionScope.loginUser != null}">
         <div>
             <form action="/board/cmt/reg" method="post">
-                <input type="hidden" name="iboard" value="${requestScope.detail.iboard}">
+                <input type="hidden" name="iboard" value="${requestScope.data.iboard}">
                 <input type="text" name="ctnt" placeholder="댓글 내용">
                 <input type="submit" value="댓글달기">
             </form>
@@ -36,7 +36,7 @@
     </c:if>
 
     <div>
-        <!--
+<!--
         <table>
             <tr>
                 <th>내용</th>
@@ -59,7 +59,9 @@
             </c:forEach>
         </table>
         -->
-        <div id="cmtListContainer" data-iboard="${requestScope.data.iboard}"></div>
+
+        <div id="cmtListContainer" data-iboard="${requestScope.data.iboard}"
+             data-loginuserpk="${sessionScope.loginUser.iuser}"></div>
     </div>
 
 
@@ -71,6 +73,7 @@
                 <input type="hidden" name="iboard" value="${requestScope.data.iboard}">
                 <input type="hidden" name="icmt">
                 <div><input type="text" name="ctnt" placeholder="댓글 내용"></div>
+
                 <div>
                     <input type="submit" value="수정">
                     <input type="button" value="취소" id="btnCancel">

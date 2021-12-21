@@ -13,7 +13,6 @@ btnCancelElem.addEventListener('click',function (){
 });
 function openModForm(icmt, ctnt){
     cmtModContainerElem.style.display = 'flex';
-
     var cmtModFrmElem = cmtModContainerElem.querySelector('#cmtModFrm');
     cmtModFrmElem.icmt.value = icmt;
     cmtModFrmElem.ctnt.value = ctnt;
@@ -45,8 +44,12 @@ if(cmtListContainerElem){
                 <th>작성일</th>
                 <th>비고</th>
             </tr>
-            `;
+            `; // 템플릿 리터널
         cmtListContainerElem.appendChild(tableElem);
+
+        var loginUserpk = cmtListContainerElem.dataset.loginuserpk ==='' ? 0 : Number(cmtListContainerElem.dataset.loginuserpk);
+
+
 
         data.forEach(function(item){
             var tr = document.createElement('tr');
@@ -59,18 +62,22 @@ if(cmtListContainerElem){
                 <td>${item.rdt}</td>
                 <td></td>`;
             tableElem.appendChild(tr);
-
+            if(loginUserpk === item.writer ){
             var lastTd = document.createElement('td');
             var btnMod = document.createElement('button');
             btnMod.innerText='수정';
+            btnMod.addEventListener('click',function (){
+
+            })
             var btnDel = document.createElement('button');
             btnDel.innerText = '삭제';
-            lastTd.appendChild(btnMod);
-            lastTd.appendChild(btnDel);
+                lastTd.appendChild(btnMod);
+                lastTd.appendChild(btnDel);
+            }
             tr.appendChild(lastTd);
         })
     }
-
+    getList()
 
     function displayCmt(data){
         var tableElem = document.createElement('table');
@@ -89,6 +96,6 @@ if(cmtListContainerElem){
         cmtListContainerElem.appendChild(tableElem);
 
     }
-    getList()
+
 
 }

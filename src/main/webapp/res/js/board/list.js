@@ -4,9 +4,9 @@ function moveToDetail(iboard) {
 }
 
 var searchFrmElem = document.querySelector('#searchFrm');
-if(searchFrmElem){
-
-    searchFrmElem.rowCnt.addEventListener('change',function(e) {
+console.log(searchFrmElem);
+if(searchFrmElem) {
+    searchFrmElem.rowCnt.addEventListener('change', function() {
         searchFrmElem.submit();
     });
 }

@@ -1,3 +1,4 @@
+
 package com.koreait.basic.board.model;
 
 import lombok.Getter;
